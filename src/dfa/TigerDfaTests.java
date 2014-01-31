@@ -22,7 +22,8 @@ public class TigerDfaTests {
   public void testComma() {
     changeByString(", ");
     assertTrue(tigerDfa.isInAcceptState());
-    assertEquals("COMMA", tigerDfa.getToken());
+    assertEquals("COMMA", tigerDfa.getTokenType());
+    assertEquals(",", tigerDfa.getToken());
   }
 
   @Test
@@ -35,13 +36,21 @@ public class TigerDfaTests {
   public void testFunction() {
     changeByString("function ");
     assertTrue(tigerDfa.isInAcceptState());
-    assertEquals("FUNC", tigerDfa.getToken());
+    assertEquals("FUNC", tigerDfa.getTokenType());
+    assertEquals("function", tigerDfa.getToken());
   }
 
   @Test
   public void testId() {
     changeByString("functiona ");
     assertTrue(tigerDfa.isInAcceptState());
-    assertEquals("ID", tigerDfa.getToken());
+    assertEquals("ID", tigerDfa.getTokenType());
+    assertEquals("functiona", tigerDfa.getToken());
+  }
+
+  @Test
+  public void testSpace() {
+    changeByString(" ");
+    assertTrue(tigerDfa.isSpace());
   }
 }

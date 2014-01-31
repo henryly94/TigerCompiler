@@ -163,8 +163,8 @@ public class State {
     return text;
   }
 
-  public int getDestination(char c) {
-    switch(c) {
+  public int getDestination(char ch) {
+    switch(ch) {
       case ',': return comma;
       case ':': return colon;
       case ';': return semi;
