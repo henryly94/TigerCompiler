@@ -1,20 +1,15 @@
 package dfa;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 public class Dfa {
-  private Map<Integer, State> states;
+  private List<State> states;
   private int currState;
   private String currToken;
 
-  public Dfa() {
-    states = new HashMap<Integer, State>();
+  public Dfa(List<State> states) {
+    this.states = states;
     reset();
-  }
-
-  public void addState(int id, State row) {
-    states.put(id, row);
   }
 
   /**
@@ -53,9 +48,8 @@ public class Dfa {
     return currToken;
   }
 
-
   public boolean isInSpaceState() {
-    return currState == 0;
+    return states.get(currState).getText().equals("SPACE");
   }
 
   public boolean isInLexicalErrorState() {

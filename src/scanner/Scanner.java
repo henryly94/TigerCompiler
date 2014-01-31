@@ -31,10 +31,9 @@ public class Scanner {
   }
 
   private void handleNextChar(String toScan) {
-    char c = toScan.charAt(charInd);
-    dfa.changeState(c);
+    dfa.changeState(toScan.charAt(charInd));
     if (dfa.isInLexicalErrorState()) handleError();
-    else if (dfa.isInSpaceState()) dfa.reset();
+    else if (dfa.isInSpaceState()) handleSpace();
     else if (dfa.isInAcceptState()) acceptToken();
   }
 
@@ -43,6 +42,10 @@ public class Scanner {
             "Line: " + (lineInd + 1) +
             ", Character: " + (charInd + 1) +
             ", Text: " + dfa.getRawText());
+    dfa.reset();
+  }
+
+  private void handleSpace() {
     dfa.reset();
   }
 

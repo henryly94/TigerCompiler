@@ -1,9 +1,9 @@
 package scanner;
 
-import dfa.Tiger;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.Before;
+import tsvreader.DfaBuilder;
 
 
 import java.io.ByteArrayOutputStream;
@@ -20,7 +20,7 @@ public class ScannerTests {
 
   @Before
   public void setUp() {
-    scanner = new Scanner(Tiger.tigerDfa);
+    scanner = new Scanner(new DfaBuilder().buildFrom("./src/tsvreader/DFA.tsv"));
     System.setErr(new PrintStream(errContent));
   }
 
@@ -64,7 +64,6 @@ public class ScannerTests {
 
   @Test
   public void scanError() {
-    scanner = new Scanner(Tiger.tigerDfa);
     scanner.scan("&^");
     assertEquals("Lexical error! Line: 1, Character: 2, Text: ^\n", errContent.toString());
   }
