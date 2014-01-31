@@ -41,12 +41,25 @@ public class Dfa {
     return states.get(currState).getText();
   }
 
+  /**
+   * Returns the current token with any trailing characters removed.
+   * If the trailing characters are needed, use getRawText() instead.
+   */
   public String getToken() {
     return currToken.substring(0, currToken.length()-1);
   }
 
-  public boolean isSpace() {
+  public String getRawText() {
+    return currToken;
+  }
+
+
+  public boolean isInSpaceState() {
     return currState == 0;
+  }
+
+  public boolean isInLexicalErrorState() {
+    return currState == -1;
   }
 
   public void reset() {

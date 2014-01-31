@@ -51,6 +51,6 @@ public class TigerDfaTests {
   @Test
   public void testSpace() {
     changeByString(" ");
-    assertTrue(tigerDfa.isSpace());
+    assertTrue(tigerDfa.isInSpaceState());
   }
 }
