@@ -1,4 +1,4 @@
-package tsvreader;
+package dfabuilder;
 
 import dfa.Dfa;
 import dfa.State;
@@ -34,7 +34,7 @@ public class DfaBuilder {
   }
 
   private void addDestination(String[] line, State state, int i) {
-    if (header[i].equals("~`!@#$%?")) state.setOtherPuncDestination(Integer.parseInt(line[i]));
+    if (header[i].equals("~`!@#$%?")) state.setOtherPunctuationDestination(Integer.parseInt(line[i]));
     else if (header[i].equals("SPACE")) state.setSpace(Integer.parseInt(line[i]));
     else if (header[i].equals("0-9")) state.setNum(Integer.parseInt(line[i]));
     else if (header[i].equals("COM")) state.addDestination(',', Integer.parseInt(line[i]));

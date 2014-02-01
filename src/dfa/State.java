@@ -9,23 +9,23 @@ public class State {
   private Map<Character, Integer> destinations;
 
   private final int defaultDestination;
-  private int otherPuncDestination;
+  private int otherPunctuationDestination;
   private int space;
   private int num;
 
-  public State(String text, int defaultDest, boolean isAcceptState) {
+  public State(String text, int defaultDestination, boolean isAcceptState) {
     this.text = text;
     this.isAcceptState = isAcceptState;
     destinations = new HashMap<Character, Integer>();
 
-    this.defaultDestination = defaultDest;
-    otherPuncDestination = defaultDest;
-    space = defaultDest;
-    num = defaultDest;
+    this.defaultDestination = defaultDestination;
+    otherPunctuationDestination = defaultDestination;
+    space = defaultDestination;
+    num = defaultDestination;
   }
 
-  public void addDestination(char c, int dest) {
-    destinations.put(c, dest);
+  public void addDestination(char c, int destination) {
+    destinations.put(c, destination);
   }
 
   public boolean isAcceptState() {
@@ -34,21 +34,21 @@ public class State {
 
   public int getDestination(char ch) {
     if (destinations.containsKey(ch)) return destinations.get(ch);
-    else if (isOtherPuncChar(ch)) return otherPuncDestination;
-    else if (isSpaceChar(ch)) return space;
-    else if (isNumChar(ch)) return num;
+    else if (isOtherPunctuation(ch)) return otherPunctuationDestination;
+    else if (isSpace(ch)) return space;
+    else if (isNum(ch)) return num;
     else return defaultDestination;
   }
 
-  private boolean isOtherPuncChar(char ch) {
+  private boolean isOtherPunctuation(char ch) {
     return ch == '~' || ch == '`' || ch == '!' || ch == '@' || ch == '#' || ch == '$' || ch == '%' || ch == '?';
   }
 
-  private boolean isSpaceChar(char ch) {
+  private boolean isSpace(char ch) {
     return ch == ' ' || ch == '\t' || ch == '\n';
   }
 
-  private boolean isNumChar(char ch) {
+  private boolean isNum(char ch) {
     return ch >= '0' && ch <= '9';
   }
 
@@ -56,8 +56,8 @@ public class State {
     return text;
   }
 
-  public void setOtherPuncDestination(int otherPuncDestination) {
-    this.otherPuncDestination = otherPuncDestination;
+  public void setOtherPunctuationDestination(int otherPunctuationDestination) {
+    this.otherPunctuationDestination = otherPunctuationDestination;
   }
 
   public void setSpace(int space) {

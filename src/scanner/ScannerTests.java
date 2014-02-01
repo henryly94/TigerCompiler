@@ -3,7 +3,7 @@ package scanner;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.Before;
-import tsvreader.DfaBuilder;
+import dfabuilder.DfaBuilder;
 
 
 import java.io.ByteArrayOutputStream;
@@ -20,7 +20,7 @@ public class ScannerTests {
 
   @Before
   public void setUp() {
-    scanner = new Scanner(new DfaBuilder().buildFrom("./src/tsvreader/DFA.csv"));
+    scanner = new Scanner(new DfaBuilder().buildFrom("./src/dfabuilder/DFA.csv"));
     System.setErr(new PrintStream(errContent));
   }
 

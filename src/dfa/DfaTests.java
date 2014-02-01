@@ -3,7 +3,7 @@ package dfa;
 import org.junit.Before;
 import org.junit.After;
 import org.junit.Test;
-import tsvreader.DfaBuilder;
+import dfabuilder.DfaBuilder;
 
 import static junit.framework.Assert.*;
 
@@ -12,7 +12,7 @@ public class DfaTests {
 
   @Before
   public void setUp() {
-    dfa = new DfaBuilder().buildFrom("./src/tsvreader/DFA.csv");
+    dfa = new DfaBuilder().buildFrom("./src/dfabuilder/DFA.csv");
   }
 
   @After

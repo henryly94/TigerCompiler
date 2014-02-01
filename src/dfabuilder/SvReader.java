@@ -1,4 +1,4 @@
-package tsvreader;
+package dfabuilder;
 
 import java.io.*;
 import java.util.ArrayList;
