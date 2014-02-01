@@ -4,23 +4,21 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TsvReader {
+public class SvReader {
   private String[] lines;
   private int currLine;
 
-  public TsvReader() {
+  public SvReader() {
     currLine = 1;
   }
 
-  /*
   public String[] getHeader() {
-    return splitAround(lines[0], '\t');
+    return splitAround(lines[0], ',');
   }
-  */
 
   public String[] getLine() {
     currLine++;
-    return splitAround(lines[currLine-1], '\t');
+    return splitAround(lines[currLine-1], ',');
   }
 
   public boolean hasLine() {

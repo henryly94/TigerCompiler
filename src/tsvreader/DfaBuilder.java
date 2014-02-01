@@ -7,72 +7,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DfaBuilder {
-  private final TsvReader reader;
-  private List<State> states;
+
+  private final SvReader reader;
+  private String[] header;
 
   public DfaBuilder() {
-    reader = new TsvReader();
-    states = new ArrayList<State>();
+    reader = new SvReader();
   }
 
   public Dfa buildFrom(String filename) {
     reader.read(filename);
-    while (reader.hasLine()) states.add(buildState());
+    header = reader.getHeader();
+    List<State> states = new ArrayList<State>();
+    while (reader.hasLine())
+      states.add(getNextState());
     return new Dfa(states);
   }
 
-  private State buildState() {
-    String[] data = reader.getLine();
-    boolean b = data[50].equals("yes");
-    return new State(data[1],
-            Integer.parseInt(data[2]),
-            Integer.parseInt(data[3]),
-            Integer.parseInt(data[4]),
-            Integer.parseInt(data[5]),
-            Integer.parseInt(data[6]),
-            Integer.parseInt(data[7]),
-            Integer.parseInt(data[8]),
-            Integer.parseInt(data[9]),
-            Integer.parseInt(data[10]),
-            Integer.parseInt(data[11]),
-            Integer.parseInt(data[12]),
-            Integer.parseInt(data[13]),
-            Integer.parseInt(data[14]),
-            Integer.parseInt(data[15]),
-            Integer.parseInt(data[16]),
-            Integer.parseInt(data[17]),
-            Integer.parseInt(data[18]),
-            Integer.parseInt(data[19]),
-            Integer.parseInt(data[20]),
-            Integer.parseInt(data[21]),
-            Integer.parseInt(data[22]),
-            Integer.parseInt(data[23]),
-            Integer.parseInt(data[24]),
-            Integer.parseInt(data[25]),
-            Integer.parseInt(data[26]),
-            Integer.parseInt(data[27]),
-            Integer.parseInt(data[28]),
-            Integer.parseInt(data[29]),
-            Integer.parseInt(data[30]),
-            Integer.parseInt(data[31]),
-            Integer.parseInt(data[32]),
-            Integer.parseInt(data[33]),
-            Integer.parseInt(data[34]),
-            Integer.parseInt(data[35]),
-            Integer.parseInt(data[36]),
-            Integer.parseInt(data[37]),
-            Integer.parseInt(data[38]),
-            Integer.parseInt(data[39]),
-            Integer.parseInt(data[40]),
-            Integer.parseInt(data[41]),
-            Integer.parseInt(data[42]),
-            Integer.parseInt(data[43]),
-            Integer.parseInt(data[44]),
-            Integer.parseInt(data[45]),
-            Integer.parseInt(data[46]),
-            Integer.parseInt(data[47]),
-            Integer.parseInt(data[48]),
-            Integer.parseInt(data[49]),
-            b);
+  private State getNextState() {
+    String[] line = reader.getLine();
+    State state = new State(line[1], Integer.parseInt(line[2]), line[line.length-1].equals("yes"));
+    for (int i = 3; i < line.length-1; i++)
+      if (!line[i].equals(""))
+        addDestination(line, state, i);
+    return state;
+  }
+
+  private void addDestination(String[] line, State state, int i) {
+    if (header[i].equals("~`!@#$%?")) state.setOtherPuncDestination(Integer.parseInt(line[i]));
+    else if (header[i].equals("SPACE")) state.setSpace(Integer.parseInt(line[i]));
+    else if (header[i].equals("0-9")) state.setNum(Integer.parseInt(line[i]));
+    else if (header[i].equals("COM")) state.addDestination(',', Integer.parseInt(line[i]));
+    else state.addDestination(header[i].charAt(0), Integer.parseInt(line[i]));
   }
 }

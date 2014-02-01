@@ -20,7 +20,7 @@ public class ScannerTests {
 
   @Before
   public void setUp() {
-    scanner = new Scanner(new DfaBuilder().buildFrom("./src/tsvreader/DFA.tsv"));
+    scanner = new Scanner(new DfaBuilder().buildFrom("./src/tsvreader/DFA.csv"));
     System.setErr(new PrintStream(errContent));
   }
 

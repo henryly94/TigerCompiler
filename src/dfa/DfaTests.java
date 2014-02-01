@@ -7,12 +7,12 @@ import tsvreader.DfaBuilder;
 
 import static junit.framework.Assert.*;
 
-public class TigerDfaTests {
+public class DfaTests {
   private Dfa dfa;
 
   @Before
   public void setUp() {
-    dfa = new DfaBuilder().buildFrom("./src/tsvreader/DFA.tsv");
+    dfa = new DfaBuilder().buildFrom("./src/tsvreader/DFA.csv");
   }
 
   @After
