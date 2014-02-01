@@ -12,7 +12,7 @@ public class DfaBuilder {
   private String[] header;
 
   public DfaBuilder() {
-    reader = new SvReader();
+    reader = new SvReader(',');
   }
 
   public Dfa buildFrom(String filename) {
@@ -29,15 +29,15 @@ public class DfaBuilder {
     State state = new State(line[1], Integer.parseInt(line[2]), line[line.length-1].equals("yes"));
     for (int i = 3; i < line.length-1; i++)
       if (!line[i].equals(""))
-        addDestination(line, state, i);
+        addDestination(header[i], line[i], state);
     return state;
   }
 
-  private void addDestination(String[] line, State state, int i) {
-    if (header[i].equals("~`!@#$%?")) state.setOtherPunctuationDestination(Integer.parseInt(line[i]));
-    else if (header[i].equals("SPACE")) state.setSpace(Integer.parseInt(line[i]));
-    else if (header[i].equals("0-9")) state.setNum(Integer.parseInt(line[i]));
-    else if (header[i].equals("COM")) state.addDestination(',', Integer.parseInt(line[i]));
-    else state.addDestination(header[i].charAt(0), Integer.parseInt(line[i]));
+  private void addDestination(String tag, String entry, State state) {
+    if (tag.equals("~`!@#$%?")) state.setOtherPunctuationDestination(Integer.parseInt(entry));
+    else if (tag.equals("SPACE")) state.setSpace(Integer.parseInt(entry));
+    else if (tag.equals("0-9")) state.setNum(Integer.parseInt(entry));
+    else if (tag.equals("COM")) state.addDestination(',', Integer.parseInt(entry));
+    else state.addDestination(tag.charAt(0), Integer.parseInt(entry));
   }
 }
