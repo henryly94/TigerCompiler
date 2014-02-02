@@ -23,11 +23,19 @@ public class Scanner {
   }
 
   public List<TokenTuple> scan(String toScan) {
-    toScan += " ";
+    toScan = prepareForScanning(toScan);
+    return makeTokenTupleList(toScan);
+  }
+
+  private List<TokenTuple> makeTokenTupleList(String toScan) {
     tokenTuples = new ArrayList<TokenTuple>();
     for (charInd = 0; charInd < toScan.length(); charInd++)
       handleNextChar(toScan);
     return tokenTuples;
+  }
+
+  private String prepareForScanning(String toScan) {
+    return toScan + " ";
   }
 
   private void handleNextChar(String toScan) {
@@ -50,12 +58,12 @@ public class Scanner {
   }
 
   private void acceptToken() {
-    addToken();
+    addTokenTuple();
     dfa.reset();
     charInd--;
   }
 
-  private void addToken() {
+  private void addTokenTuple() {
     String tokenType = dfa.getTokenType();
     String token = dfa.getToken();
     tokenTuples.add(new TokenTuple(tokenType, token));
