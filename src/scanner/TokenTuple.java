@@ -1,8 +1,8 @@
 package scanner;
 
-public class TokenTuple {
-  final String tokenType;
-  final String token;
+class TokenTuple {
+  private final String tokenType;
+  private final String token;
 
   public TokenTuple(String tokenType, String token) {
     this.tokenType = tokenType;
@@ -15,10 +15,5 @@ public class TokenTuple {
       return false;
     TokenTuple t = (TokenTuple)o;
     return tokenType.equals(t.tokenType) && token.equals(t.token);
-  }
-
-  @Override
-  public String toString() {
-    return "token type: " + tokenType + ", token: " + token;
   }
 }

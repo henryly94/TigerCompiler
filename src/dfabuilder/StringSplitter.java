@@ -3,9 +3,9 @@ package dfabuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StringSplitter {
+class StringSplitter {
+  private final char splitAbout;
   private String toSplit;
-  private char splitAbout;
   private int currChar;
 
   public StringSplitter(char splitAbout) {

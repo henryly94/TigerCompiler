@@ -5,8 +5,8 @@ import dfa.Dfa;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Scanner {
-  private Dfa dfa;
+class Scanner {
+  private final Dfa dfa;
   private List<TokenTuple> tokenTuples;
   private int lineInd;
   private int charInd;

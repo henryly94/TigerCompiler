@@ -4,8 +4,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SvReader {
-  private StringSplitter ss;
+class SvReader {
+  private final StringSplitter ss;
   private String[] lines;
   private int currLine;
 
@@ -49,7 +49,7 @@ public class SvReader {
       return new BufferedReader((new FileReader(new File(filename))));
     } catch (FileNotFoundException e) {
       e.printStackTrace();
-      return null;
+      throw new RuntimeException();
     }
   }
 

@@ -3,7 +3,7 @@ package dfa;
 import java.util.List;
 
 public class Dfa {
-  private List<State> states;
+  private final List<State> states;
   private int currState;
   private String currToken;
 
