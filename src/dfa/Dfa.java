@@ -38,14 +38,9 @@ public class Dfa {
 
   /**
    * Returns the current token with any trailing characters removed.
-   * If the trailing characters are needed, use getRawText() instead.
    */
   public String getToken() {
     return currToken.substring(0, currToken.length()-1);
-  }
-
-  public String getRawText() {
-    return currToken;
   }
 
   public boolean isInSpaceState() {

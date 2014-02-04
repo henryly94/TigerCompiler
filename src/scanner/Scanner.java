@@ -2,70 +2,106 @@ package scanner;
 
 import dfa.Dfa;
 
-import java.util.ArrayList;
-import java.util.List;
-
 class Scanner {
   private final Dfa dfa;
-  private List<TokenTuple> tokenTuples;
   private int lineInd;
   private int charInd;
+  private String[] toScan;
+  private TokenTuple tokenTuple;
 
   public Scanner(Dfa dfa) {
     this.dfa = dfa;
   }
 
-  public List<TokenTuple> scan(String[] toScan) {
-    List<TokenTuple> allTokens = new ArrayList<TokenTuple>();
-    for (lineInd = 0; lineInd < toScan.length; lineInd++)
-      allTokens.addAll(scan(toScan[lineInd]));
-    return allTokens;
+  public void scan(String[] toScan) {
+    this.toScan = toScan;
+    lineInd = 0;
+    charInd = 0;
+    for (int i = 0; i < toScan.length; i++)
+      this.toScan[i] += " ";
   }
 
-  public List<TokenTuple> scan(String toScan) {
-    toScan = prepareForScanning(toScan);
-    return makeTokenTupleList(toScan);
+  public void scan(String toScan) {
+    scan(new String[]{toScan});
   }
 
-  private List<TokenTuple> makeTokenTupleList(String toScan) {
-    tokenTuples = new ArrayList<TokenTuple>();
-    for (charInd = 0; charInd < toScan.length(); charInd++)
-      handleNextChar(toScan);
-    return tokenTuples;
+  public boolean hasMoreTokens() {
+    while (isInBounds() && dfa.isInSpaceState())
+      moveThroughSpace();
+    return isInBounds();
   }
 
-  private String prepareForScanning(String toScan) {
-    return toScan + " ";
+  private boolean isInBounds() {
+    return lineInd < toScan.length;
   }
 
-  private void handleNextChar(String toScan) {
-    dfa.changeState(toScan.charAt(charInd));
+  private void moveThroughSpace() {
+    handleSpace();
+    sendCurrChar();
+    if (dfa.isInLexicalErrorState())
+      handleError();
+    if (charInd >= toScan[lineInd].length())
+      goToNextLine();
+  }
+
+  /**
+   * Finds the next token in the scanned String and returns it. If
+   * a lexical error is found, a LexicalException is thrown.
+   */
+  public TokenTuple getNextToken() {
+    tokenTuple = null;
+    while (tokenTuple == null)
+      tryNextChar();
+    return tokenTuple;
+  }
+
+  private void tryNextChar() {
+    if (charInd >= toScan[lineInd].length())
+      tryNextLine();
+    else
+      handleNextChar();
+  }
+
+  private void tryNextLine() {
+    goToNextLine();
+    tryNextChar();
+  }
+
+  private void handleNextChar() {
+    sendCurrChar();
     if (dfa.isInLexicalErrorState()) handleError();
     else if (dfa.isInSpaceState()) handleSpace();
     else if (dfa.isInAcceptState()) acceptToken();
   }
 
-  private void handleError() {
-    System.err.println("Lexical error! " +
-            "Line: " + (lineInd + 1) +
-            ", Character: " + (charInd + 1) +
-            ", Text: " + dfa.getRawText());
-    dfa.reset();
+  private void goToNextLine() {
+    charInd = 0;
+    lineInd++;
+  }
+
+  private void sendCurrChar() {
+    dfa.changeState(toScan[lineInd].charAt(charInd));
+    charInd++;
   }
 
   private void handleSpace() {
     dfa.reset();
   }
 
+  private void handleError() {
+    dfa.reset();
+    throw new LexicalException(lineInd + 1, charInd + 1);
+  }
+
   private void acceptToken() {
-    addTokenTuple();
+    setTokenTuple();
     dfa.reset();
     charInd--;
   }
 
-  private void addTokenTuple() {
+  private void setTokenTuple() {
     String tokenType = dfa.getTokenType();
     String token = dfa.getToken();
-    tokenTuples.add(new TokenTuple(tokenType, token));
+    tokenTuple = new TokenTuple(tokenType, token);
   }
 }
