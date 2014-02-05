@@ -58,7 +58,7 @@ public class ScannerTests {
     checkTokens("EQ", "=");
     checkTokens("ARRAY", "array");
     checkTokens("OF", "of");
-    checkTokens("ID", "int");
+    checkTokens("INT", "int");
     assertFalse(scanner.hasMoreTokens());
   }
 
