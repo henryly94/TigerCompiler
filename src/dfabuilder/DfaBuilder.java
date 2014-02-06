@@ -1,6 +1,6 @@
 package dfabuilder;
 
-import dfa.Dfa;
+import scanner.TokenDfa;
 import dfa.State;
 
 import java.util.ArrayList;
@@ -47,13 +47,13 @@ public class DfaBuilder {
    *
    * @param filename Location of the csv sheet.
    */
-  public Dfa buildFrom(String filename) {
+  public TokenDfa buildFrom(String filename) {
     reader.read(filename);
     header = reader.getHeader();
     List<State> states = new ArrayList<State>();
     while (reader.hasLine())
       states.add(getNextState());
-    return new Dfa(states);
+    return new TokenDfa(states);
   }
 
   private State getNextState() {

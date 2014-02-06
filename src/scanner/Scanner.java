@@ -1,15 +1,13 @@
 package scanner;
 
-import dfa.Dfa;
-
 class Scanner {
-  private final Dfa dfa;
+  private final TokenDfa dfa;
   private int lineInd;
   private int charInd;
   private String[] toScan;
   private TokenTuple tokenTuple;
 
-  public Scanner(Dfa dfa) {
+  public Scanner(TokenDfa dfa) {
     this.dfa = dfa;
   }
 
@@ -38,7 +36,7 @@ class Scanner {
   private void moveThroughSpace() {
     handleSpace();
     sendCurrChar();
-    if (dfa.isInLexicalErrorState())
+    if (dfa.isInErrorState())
       handleError();
     if (charInd >= toScan[lineInd].length())
       goToNextLine();
@@ -69,7 +67,7 @@ class Scanner {
 
   private void handleNextChar() {
     sendCurrChar();
-    if (dfa.isInLexicalErrorState()) handleError();
+    if (dfa.isInErrorState()) handleError();
     else if (dfa.isInSpaceState()) handleSpace();
     else if (dfa.isInAcceptState()) acceptToken();
   }
@@ -80,7 +78,7 @@ class Scanner {
   }
 
   private void sendCurrChar() {
-    dfa.changeState(toScan[lineInd].charAt(charInd));
+    dfa.changeState("" + toScan[lineInd].charAt(charInd));
     charInd++;
   }
 
@@ -100,8 +98,8 @@ class Scanner {
   }
 
   private void setTokenTuple() {
-    String tokenType = dfa.getTokenType();
-    String token = dfa.getToken();
+    String tokenType = dfa.getStateName();
+    String token = dfa.getStateValue();
     tokenTuple = new TokenTuple(tokenType, token);
   }
 }

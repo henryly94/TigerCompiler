@@ -4,11 +4,12 @@ import org.junit.Before;
 import org.junit.After;
 import org.junit.Test;
 import dfabuilder.DfaBuilder;
+import scanner.TokenDfa;
 
 import static junit.framework.Assert.*;
 
 public class DfaTests {
-  private Dfa dfa;
+  private TokenDfa dfa;
 
   @Before
   public void setUp() {
@@ -22,15 +23,15 @@ public class DfaTests {
 
   private void changeByString(String toSend) {
     for (char c: toSend.toCharArray())
-      dfa.changeState(c);
+      dfa.changeState("" + c);
   }
 
   @Test
   public void testComma() {
     changeByString(", ");
     assertTrue(dfa.isInAcceptState());
-    assertEquals("COMMA", dfa.getTokenType());
-    assertEquals(",", dfa.getToken());
+    assertEquals("COMMA", dfa.getStateName());
+    assertEquals(",", dfa.getStateValue());
   }
 
   @Test
@@ -43,16 +44,16 @@ public class DfaTests {
   public void testFunction() {
     changeByString("function ");
     assertTrue(dfa.isInAcceptState());
-    assertEquals("FUNC", dfa.getTokenType());
-    assertEquals("function", dfa.getToken());
+    assertEquals("FUNC", dfa.getStateName());
+    assertEquals("function", dfa.getStateValue());
   }
 
   @Test
   public void testId() {
     changeByString("functiona ");
     assertTrue(dfa.isInAcceptState());
-    assertEquals("ID", dfa.getTokenType());
-    assertEquals("functiona", dfa.getToken());
+    assertEquals("ID", dfa.getStateName());
+    assertEquals("functiona", dfa.getStateValue());
   }
 
   @Test

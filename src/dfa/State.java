@@ -6,7 +6,7 @@ import java.util.Map;
 public class State {
   private final String text;
   private final boolean isAcceptState;
-  private final Map<Character, Integer> destinations;
+  private final Map<String, Integer> destinations;
 
   private int defaultDestination;
   private int otherPunctuationDestination;
@@ -16,7 +16,7 @@ public class State {
   public State(String text, boolean isAcceptState) {
     this.text = text;
     this.isAcceptState = isAcceptState;
-    destinations = new HashMap<Character, Integer>();
+    destinations = new HashMap<String, Integer>();
 
     this.defaultDestination = Integer.MAX_VALUE;
     otherPunctuationDestination = Integer.MAX_VALUE;
@@ -32,7 +32,7 @@ public class State {
     return text;
   }
 
-  public int getDestination(char ch) {
+  public int getDestination(String ch) {
     if (destinations.containsKey(ch)) return destinations.get(ch);
     else if (isOtherPunctuation(ch)) return otherPunctuationDestination;
     else if (isSpace(ch)) return spaceDestination;
@@ -45,8 +45,8 @@ public class State {
     else if (tag.equals("~`!@#$%?")) otherPunctuationDestination = destination;
     else if (tag.equals("SPACE")) spaceDestination = destination;
     else if (tag.equals("0-9")) numDestination = destination;
-    else if (tag.equals("comma")) destinations.put(',', destination);
-    else destinations.put(tag.charAt(0), destination);
+    else if (tag.equals("comma")) destinations.put(",", destination);
+    else destinations.put(tag, destination);
   }
 
   private void setDefaultDestination(int destination) {
@@ -56,15 +56,18 @@ public class State {
     if (numDestination == Integer.MAX_VALUE) numDestination = destination;
   }
 
-  private boolean isOtherPunctuation(char ch) {
+  private boolean isOtherPunctuation(String str) {
+    char ch = str.charAt(0);
     return ch == '~' || ch == '`' || ch == '!' || ch == '@' || ch == '#' || ch == '$' || ch == '%' || ch == '?';
   }
 
-  private boolean isSpace(char ch) {
+  private boolean isSpace(String str) {
+    char ch = str.charAt(0);
     return ch == ' ' || ch == '\t' || ch == '\n';
   }
 
-  private boolean isNum(char ch) {
+  private boolean isNum(String str) {
+    char ch = str.charAt(0);
     return ch >= '0' && ch <= '9';
   }
 }
