@@ -17,9 +17,13 @@ public class Parser {
 
   public void parse(List<TokenTuple> tokens) {
     this.tokens = tokens;
-    for (int i = 0; i < this.tokens.size(); i++) {
-      i = handleToken(i);
-      if (dfa.isInErrorState())  return;
+    int index = 0;
+    while (index < tokens.size()) {
+      index = handleToken(index);
+      if (index >= tokens.size())
+        return;
+      System.out.println(dfa.getState() + " " + getType(index) + " " + index);
+      if (dfa.isInErrorState()) return;
     }
   }
 
@@ -27,23 +31,26 @@ public class Parser {
     int prevState = dfa.getState();
     dfa.changeState(getType(index));
     int newState = dfa.getState();
-    if (dfa.isInReturnState()) index = handleReturn(index);
-    else if (jumpOccurred(prevState, newState)) index = handleJump(index, prevState);
+    if (dfa.isInReturnState()) handleReturn();
+    else if (jumpOccurred(prevState, newState)) handleJump(prevState);
+    else index++;
     return index;
   }
 
-  private int handleJump(int i, int prevState) {
+  private void handleJump(int prevState) {
     prevStates.push(prevState);
-    return i-1;
   }
 
-  private int handleReturn(int i) {
+  private void handleReturn() {
     dfa.setState(prevStates.pop() + 1);
-    return i-1;
   }
 
   private boolean jumpOccurred(int prevState, int newState) {
-    return Math.abs(newState - prevState) > 1;
+    return differentStateNames(prevState, newState) || prevState > newState;
+  }
+
+  private boolean differentStateNames(int prevState, int newState) {
+    return !(dfa.getType(prevState).equals(dfa.getType(newState)));
   }
 
   private String getType(int i) {

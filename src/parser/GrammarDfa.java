@@ -44,4 +44,8 @@ public class GrammarDfa extends Dfa {
   public void setState(int state) {
     super.setState(state);
   }
+
+  public String getType(int state) {
+    return states.get(state).getText();
+  }
 }
