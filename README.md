@@ -1,8 +1,8 @@
 TigerCompiler
 =============
-You can view the token DFA [here](https://docs.google.com/spreadsheet/ccc?key=0Ai1LRs2d4YqFdDhSRzVJa0RsTlJOR242S1JIZ3BqZ0E&usp=drive_web#gid=0). In order use this DFA in the compiler, it needs to be downloaded as a .csv file.  
+You can view the Tiger token DFA [here](https://docs.google.com/spreadsheet/ccc?key=0Ai1LRs2d4YqFdDhSRzVJa0RsTlJOR242S1JIZ3BqZ0E&usp=drive_web#gid=0). In order use this DFA in the compiler, it needs to be downloaded as a .csv file.  
 
-You can view the (unfinished) grammar DFA [here](https://docs.google.com/spreadsheet/ccc?key=0Ai1LRs2d4YqFdHE5QjZ0c1pTSHoyTGVBMFJub0tzeEE#gid=0).  
+You can view the Tiger grammar DFA [here](https://docs.google.com/spreadsheet/ccc?key=0Ai1LRs2d4YqFdHE5QjZ0c1pTSHoyTGVBMFJub0tzeEE#gid=0).  
 
 * ~~Write DFA~~  
 * ~~Implement DFA~~  
