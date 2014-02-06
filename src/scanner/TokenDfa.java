@@ -20,7 +20,7 @@ public class TokenDfa extends Dfa {
    * Returns the current token with any trailing characters removed.
    */
   public String getStateValue() {
-    return currValue.substring(0, currValue.length()-1);
+    return currValue.substring(0, currValue.length() - 1);
   }
 
   public boolean isInSpaceState() {
@@ -28,12 +28,7 @@ public class TokenDfa extends Dfa {
   }
 
   public boolean isInErrorState() {
-    return currState == -1;
-  }
-
-  @Override
-  protected void adjustState(String input) {
-    currState = states.get(currState).getDestination(input);
+    return getState() == -1;
   }
 
   public void resetValue() {

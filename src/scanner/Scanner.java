@@ -1,6 +1,7 @@
 package scanner;
 
 class Scanner {
+
   private final TokenDfa dfa;
   private int lineInd;
   private int charInd;

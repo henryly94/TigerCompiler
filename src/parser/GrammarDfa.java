@@ -8,7 +8,6 @@ import java.util.List;
 public class GrammarDfa extends Dfa {
   private String value;
 
-
   public GrammarDfa(List<State> states) {
     super(states);
   }
@@ -20,12 +19,16 @@ public class GrammarDfa extends Dfa {
 
   @Override
   public boolean isInErrorState() {
-    return false;
+    return getState() == -2;
   }
 
   @Override
-  protected void adjustState(String input) {
+  public boolean isInAcceptState() {
+    return getState() == 5;
+  }
 
+  public boolean isInReturnState() {
+    return getState() == -1;
   }
 
   @Override
@@ -36,5 +39,9 @@ public class GrammarDfa extends Dfa {
   @Override
   protected void resetValue() {
     value = "";
+  }
+
+  public void setState(int state) {
+    super.setState(state);
   }
 }

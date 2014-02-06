@@ -3,8 +3,8 @@ package dfa;
 import java.util.List;
 
 public abstract class Dfa {
-  protected final List<State> states;
-  protected int currState;
+  private final List<State> states;
+  private int currState;
 
   public Dfa(List<State> states) {
     this.states = states;
@@ -40,10 +40,24 @@ public abstract class Dfa {
     adjustValue(input);
   }
 
-  public abstract String getStateValue();
+  private void adjustState(String input) {
+    currState = getCurrState().getDestination(input);
+  }
 
+  protected State getCurrState() {
+    return states.get(currState);
+  }
+
+  public int getState() {
+    return currState;
+  }
+
+  public abstract String getStateValue();
   public abstract boolean isInErrorState();
-  protected abstract void adjustState(String input);
   protected abstract void adjustValue(String input);
   protected abstract void resetValue();
+
+  protected void setState(int state) {
+    this.currState = state;
+  }
 }

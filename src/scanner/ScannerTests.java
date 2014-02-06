@@ -1,9 +1,9 @@
 package scanner;
 
+import dfabuilder.TokenDfaBuilder;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.Before;
-import dfabuilder.DfaBuilder;
 
 
 import java.io.ByteArrayOutputStream;
@@ -18,7 +18,7 @@ public class ScannerTests {
 
   @Before
   public void setUp() {
-    scanner = new Scanner(new DfaBuilder().buildFrom("./src/dfabuilder/DFA.csv"));
+    scanner = new Scanner((TokenDfa) new TokenDfaBuilder().buildFrom("./src/dfabuilder/TokenDFA.csv"));
     System.setErr(new PrintStream(errContent));
   }
 
