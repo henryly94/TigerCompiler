@@ -40,6 +40,9 @@ public class TokenDfa extends Dfa {
   }
 
   public boolean isInAcceptState() {
-    return getCurrState().isAcceptState() && !isInSpaceState() && !isInErrorState();
+    return getState() >= 0 &&
+            getCurrState().isAcceptState() &&
+            !isInSpaceState() &&
+            !isInErrorState();
   }
 }

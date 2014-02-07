@@ -3,10 +3,9 @@ package scanner;
 public class Scanner {
 
   private final TokenDfa dfa;
+  private String[] toScan;
   private int lineInd;
   private int charInd;
-  private String[] toScan;
-  private TokenTuple tokenTuple;
 
   public Scanner(TokenDfa dfa) {
     this.dfa = dfa;
@@ -33,9 +32,13 @@ public class Scanner {
   }
 
   public boolean hasMoreTokens() {
-    while (charactersRemain() && dfa.isInSpaceState())
-      appendNextCharToTokenIfRelevant();
+    removeSpaceChars();
     return charactersRemain();
+  }
+
+  private void removeSpaceChars() {
+    while (charactersRemain() && dfa.isInSpaceState())
+      processNextChar();
   }
 
   /**
@@ -43,19 +46,31 @@ public class Scanner {
    * a lexical error is found, a LexicalException is thrown.
    */
   public TokenTuple getNextToken() {
-    tokenTuple = null;
-    while (tokenTuple == null) {
-      appendNextCharToTokenIfRelevant();
-    }
-    return tokenTuple;
+    while (!dfa.isInAcceptState())
+      processNextChar();
+    TokenTuple token = dfa.getToken();
+    resetDfaAndMoveBackChar();
+    return token;
   }
 
-  private boolean charactersRemain() {
-    return lineInd < toScan.length;
+  private void processNextChar() {
+    changeDfaState();
+    if (!dfa.isInAcceptState())
+      handleNonAcceptState();
   }
 
-  private void handleSpace() {
+  private void resetDfaAndMoveBackChar() {
     dfa.reset();
+    charInd--;
+  }
+
+  private void handleNonAcceptState() {
+    if (dfa.isInErrorState())
+      throw new LexicalException(lineInd + 1, charInd + 1);
+    else if (dfa.isInSpaceState())
+      dfa.reset();
+    if (noCharsLeftInLine())
+      gotoNextLine();
   }
 
   private void changeDfaState() {
@@ -63,40 +78,17 @@ public class Scanner {
     charInd++;
   }
 
-  private void handleError() {
-    dfa.reset();
-    throw new LexicalException(lineInd + 1, charInd + 1);
-  }
-
-  private boolean noCharsLeftOnCurrentLine() {
-    return charInd >= toScan[lineInd].length();
-  }
-
-  private void goToNextLine() {
+  private void gotoNextLine() {
     charInd = 0;
     lineInd++;
   }
 
-  private void appendNextCharToTokenIfRelevant() {
-    addNextCharIfRelevant();
-    if (noCharsLeftOnCurrentLine())
-      goToNextLine();
+  private boolean charactersRemain() {
+    return lineInd < toScan.length;
   }
 
-  private void addNextCharIfRelevant() {
-    changeDfaState();
-    handleDfaState();
+  private boolean noCharsLeftInLine() {
+    return charInd >= toScan[lineInd].length();
   }
 
-  private void handleDfaState() {
-    if (dfa.isInErrorState()) handleError();
-    else if (dfa.isInSpaceState()) handleSpace();
-    else if (dfa.isInAcceptState()) acceptToken();
-  }
-
-  private void acceptToken() {
-    tokenTuple = dfa.getToken();
-    dfa.reset();
-    charInd--;
-  }
 }
