@@ -11,14 +11,6 @@ public abstract class Dfa {
     reset();
   }
 
-  /**
-   * It is the responsibility of the user to retrieve tokens and token
-   * types once an acceptance state is reached. The user is also
-   * responsible for resetting the TokenDfa to allow more tokens to be
-   * generated.
-   */
-  public abstract boolean isInAcceptState();
-
   public String getStateName() {
     return states.get(currState).getText();
   }

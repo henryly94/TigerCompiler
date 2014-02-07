@@ -19,7 +19,6 @@ public class GrammarDfa extends Dfa {
     return getState() != -2;
   }
 
-  @Override
   public boolean isInAcceptState() {
     return getState() == 5;
   }

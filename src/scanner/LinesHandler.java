@@ -1,9 +1,9 @@
 package scanner;
 
-public class LinesHandler {
+class LinesHandler {
   private int lineInd;
   private int charInd;
-  private String[] lines;
+  private final String[] lines;
 
   public LinesHandler(String[] lines) {
     for (int i = 0; i < lines.length; i++)

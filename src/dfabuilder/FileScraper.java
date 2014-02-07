@@ -15,11 +15,10 @@ public class FileScraper {
     return convertListToArray();
   }
 
-  private List<String> initLineList() {
+  private void initLineList() {
     initBufferedReader();
     lineList = new ArrayList<String>();
     populateLineList();
-    return lineList;
   }
 
   private String[] convertListToArray() {
