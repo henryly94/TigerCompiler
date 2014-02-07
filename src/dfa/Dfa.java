@@ -17,9 +17,7 @@ public abstract class Dfa {
    * responsible for resetting the TokenDfa to allow more tokens to be
    * generated.
    */
-  public boolean isInAcceptState() {
-    return states.get(currState).isAcceptState();
-  }
+  public abstract boolean isInAcceptState();
 
   public String getStateName() {
     return states.get(currState).getText();

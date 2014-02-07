@@ -13,34 +13,29 @@ public class Scanner {
   }
 
   public void scan(String[] toScan) {
-    this.toScan = toScan;
-    lineInd = 0;
-    charInd = 0;
-    for (int i = 0; i < toScan.length; i++)
-      this.toScan[i] += " ";
+    initValues(toScan);
+    prepareLinesToYieldTokens();
   }
 
   public void scan(String toScan) {
     scan(new String[]{toScan});
   }
 
+  private void initValues(String[] toScan) {
+    this.toScan = toScan;
+    lineInd = 0;
+    charInd = 0;
+  }
+
+  private void prepareLinesToYieldTokens() {
+    for (int i = 0; i < toScan.length; i++)
+      toScan[i] += " ";
+  }
+
   public boolean hasMoreTokens() {
-    while (isInBounds() && dfa.isInSpaceState())
-      moveThroughSpace();
-    return isInBounds();
-  }
-
-  private boolean isInBounds() {
-    return lineInd < toScan.length;
-  }
-
-  private void moveThroughSpace() {
-    handleSpace();
-    sendCurrChar();
-    if (dfa.isInErrorState())
-      handleError();
-    if (charInd >= toScan[lineInd].length())
-      goToNextLine();
+    while (charactersRemain() && dfa.isInSpaceState())
+      appendNextCharToTokenIfRelevant();
+    return charactersRemain();
   }
 
   /**
@@ -49,42 +44,23 @@ public class Scanner {
    */
   public TokenTuple getNextToken() {
     tokenTuple = null;
-    while (tokenTuple == null)
-      tryNextChar();
+    while (tokenTuple == null) {
+      appendNextCharToTokenIfRelevant();
+    }
     return tokenTuple;
   }
 
-  private void tryNextChar() {
-    if (charInd >= toScan[lineInd].length())
-      tryNextLine();
-    else
-      handleNextChar();
-  }
-
-  private void tryNextLine() {
-    goToNextLine();
-    tryNextChar();
-  }
-
-  private void handleNextChar() {
-    sendCurrChar();
-    if (dfa.isInErrorState()) handleError();
-    else if (dfa.isInSpaceState()) handleSpace();
-    else if (dfa.isInAcceptState()) acceptToken();
-  }
-
-  private void goToNextLine() {
-    charInd = 0;
-    lineInd++;
-  }
-
-  private void sendCurrChar() {
-    dfa.changeState("" + toScan[lineInd].charAt(charInd));
-    charInd++;
+  private boolean charactersRemain() {
+    return lineInd < toScan.length;
   }
 
   private void handleSpace() {
     dfa.reset();
+  }
+
+  private void changeDfaState() {
+    dfa.changeState("" + toScan[lineInd].charAt(charInd));
+    charInd++;
   }
 
   private void handleError() {
@@ -92,15 +68,35 @@ public class Scanner {
     throw new LexicalException(lineInd + 1, charInd + 1);
   }
 
-  private void acceptToken() {
-    setTokenTuple();
-    dfa.reset();
-    charInd--;
+  private boolean noCharsLeftOnCurrentLine() {
+    return charInd >= toScan[lineInd].length();
   }
 
-  private void setTokenTuple() {
-    String tokenType = dfa.getStateName();
-    String token = dfa.getStateValue();
-    tokenTuple = new TokenTuple(tokenType, token);
+  private void goToNextLine() {
+    charInd = 0;
+    lineInd++;
+  }
+
+  private void appendNextCharToTokenIfRelevant() {
+    addNextCharIfRelevant();
+    if (noCharsLeftOnCurrentLine())
+      goToNextLine();
+  }
+
+  private void addNextCharIfRelevant() {
+    changeDfaState();
+    handleDfaState();
+  }
+
+  private void handleDfaState() {
+    if (dfa.isInErrorState()) handleError();
+    else if (dfa.isInSpaceState()) handleSpace();
+    else if (dfa.isInAcceptState()) acceptToken();
+  }
+
+  private void acceptToken() {
+    tokenTuple = dfa.getToken();
+    dfa.reset();
+    charInd--;
   }
 }

@@ -13,41 +13,53 @@ public class Parser {
     this.dfa = dfa;
   }
 
+  public boolean isLegal() {
+    return dfa.isInAcceptState();
+  }
+
   public void parse(List<TokenTuple> tokens) {
+    prepareToParse(tokens);
+    while (tokensRemain() && dfa.notInErrorState())
+      processNextToken();
+  }
+
+  private void prepareToParse(List<TokenTuple> tokens) {
     this.tokens = tokens;
     tokenIndex = 0;
-    while (tokenIndex < tokens.size() && dfa.notInErrorState())
-      handleToken();
   }
 
-  private void handleToken() {
-    dfa.changeState(getType());
+  private boolean tokensRemain() {
+    return tokenIndex < tokens.size();
+  }
+
+  private void processNextToken() {
+    dfa.changeState(getNextToken());
     if (dfa.notInErrorState())
-      handleDfaState();
+      determineNextToken();
   }
 
-  private void handleDfaState() {
-    if (dfa.isInReturnState())
-      handleReturn();
-    else if (dfa.didJumpOccur() || dfa.wasMoveBackwards())
-      handleJump();
-    else
-      tokenIndex++;
-  }
-
-  private void handleJump() {
-    dfa.pushReturnState();
-  }
-
-  private void handleReturn() {
-    dfa.returnToPushedState();
-  }
-
-  private String getType() {
+  private String getNextToken() {
     return tokens.get(tokenIndex).getType();
   }
 
-  public boolean isLegal() {
-    return dfa.isInAcceptState();
+  private void determineNextToken() {
+    if (dfa.isInReturnState())
+      repeatTokenAndLoadState();
+    else if (dfa.didJumpOccur())
+      repeatTokenAndSaveState();
+    else
+      moveToNextToken();
+  }
+
+  private void repeatTokenAndLoadState() {
+    dfa.returnToPushedState();
+  }
+
+  private void repeatTokenAndSaveState() {
+    dfa.pushReturnState();
+  }
+
+  private void moveToNextToken() {
+    tokenIndex++;
   }
 }

@@ -21,13 +21,11 @@ class FrontEnd {
 
   public boolean compile(String filename) {
     String[] lines = scraper.read(filename);
-    List<TokenTuple> tokens = new ArrayList<TokenTuple>();
     scanner.scan(lines);
+    List<TokenTuple> tokens = new ArrayList<TokenTuple>();
     while (scanner.hasMoreTokens())
       tokens.add(scanner.getNextToken());
-
     parser.parse(tokens);
-
     return parser.isLegal();
   }
 }

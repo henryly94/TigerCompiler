@@ -23,6 +23,10 @@ public class TokenDfa extends Dfa {
     return currValue.substring(0, currValue.length() - 1);
   }
 
+  public TokenTuple getToken() {
+    return new TokenTuple(getStateName(), getStateValue());
+  }
+
   public boolean isInSpaceState() {
     return getStateName().equals("SPACE");
   }
@@ -33,5 +37,9 @@ public class TokenDfa extends Dfa {
 
   public void resetValue() {
     currValue = "";
+  }
+
+  public boolean isInAcceptState() {
+    return getCurrState().isAcceptState() && !isInSpaceState() && !isInErrorState();
   }
 }

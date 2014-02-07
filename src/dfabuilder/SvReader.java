@@ -26,7 +26,5 @@ class SvReader {
   public boolean hasLine() {
     return currLine < lines.length;
   }
-
-
 }
 

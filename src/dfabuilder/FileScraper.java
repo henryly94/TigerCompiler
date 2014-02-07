@@ -5,37 +5,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileScraper {
-
-  private String[] lines;
+  private BufferedReader br;
+  private List<String> lineList;
+  private String filename;
 
   public String[] read(String filename) {
-    List<String> lineList = getListOfLines(filename);
-    convertListToArray(lineList);
-    return lines;
+    this.filename = filename;
+    initLineList();
+    return convertListToArray();
   }
 
-  private List<String> getListOfLines(String filename) {
-    List<String> lineList = new ArrayList<String>();
-    BufferedReader br = getBufferedReader(filename);
-    addLines(lineList, br);
+  private List<String> initLineList() {
+    initBufferedReader();
+    lineList = new ArrayList<String>();
+    populateLineList();
     return lineList;
   }
 
-  private void convertListToArray(List<String> lineList) {
-    lines = new String[lineList.size()];
-    lines = lineList.toArray(lines);
+  private String[] convertListToArray() {
+    String[] lines = new String[lineList.size()];
+    return lineList.toArray(lines);
   }
 
-  private BufferedReader getBufferedReader(String filename) {
+  private void initBufferedReader() {
     try {
-      return new BufferedReader((new FileReader(new File(filename))));
+      br = new BufferedReader((new FileReader(new File(filename))));
     } catch (FileNotFoundException e) {
       e.printStackTrace();
-      throw new RuntimeException();
     }
   }
 
-  private void addLines(List<String> lineList, BufferedReader br) {
+  private void populateLineList() {
     String line;
     try {
       while ((line = br.readLine()) != null)
