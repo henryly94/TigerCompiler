@@ -3,58 +3,45 @@ package parser;
 import scanner.TokenTuple;
 
 import java.util.List;
-import java.util.Stack;
 
 public class Parser {
   private GrammarDfa dfa;
   private List<TokenTuple> tokens;
-  private Stack<Integer> prevStates;
+  private int tokenIndex;
 
   public Parser(GrammarDfa dfa) {
     this.dfa = dfa;
-    prevStates = new Stack<Integer>();
   }
 
   public void parse(List<TokenTuple> tokens) {
     this.tokens = tokens;
-    int index = 0;
-    while (index < tokens.size()) {
-      index = handleToken(index);
-      if (index >= tokens.size())
-        return;
-      System.out.println(dfa.getState() + " " + getType(index) + " " + index);
-      if (dfa.isInErrorState()) return;
-    }
+    tokenIndex = 0;
+    while (tokenIndex < tokens.size() && !dfa.isInErrorState())
+      handleToken();
   }
 
-  private int handleToken(int index) {
-    int prevState = dfa.getState();
-    dfa.changeState(getType(index));
-    int newState = dfa.getState();
-    if (dfa.isInReturnState()) handleReturn();
-    else if (jumpOccurred(prevState, newState)) handleJump(prevState);
-    else index++;
-    return index;
+  private void handleToken() {
+    dfa.changeState(getType());
+    if (dfa.isInReturnState())
+      handleReturn();
+    else if (dfa.isInErrorState())
+      ;
+    else if (dfa.didJumpOccur() || dfa.wasMoveBackwards())
+      handleJump();
+    else
+      tokenIndex++;
   }
 
-  private void handleJump(int prevState) {
-    prevStates.push(prevState);
+  private void handleJump() {
+    dfa.pushReturnState();
   }
 
   private void handleReturn() {
-    dfa.setState(prevStates.pop() + 1);
+    dfa.returnToPushedState();
   }
 
-  private boolean jumpOccurred(int prevState, int newState) {
-    return differentStateNames(prevState, newState) || prevState > newState;
-  }
-
-  private boolean differentStateNames(int prevState, int newState) {
-    return !(dfa.getType(prevState).equals(dfa.getType(newState)));
-  }
-
-  private String getType(int i) {
-    return tokens.get(i).getType();
+  private String getType() {
+    return tokens.get(tokenIndex).getType();
   }
 
   public boolean isLegal() {

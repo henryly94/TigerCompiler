@@ -4,17 +4,15 @@ import dfa.Dfa;
 import dfa.State;
 
 import java.util.List;
+import java.util.Stack;
 
 public class GrammarDfa extends Dfa {
-  private String value;
+  private Stack<Integer> prevStates;
+  private int prevState;
 
   public GrammarDfa(List<State> states) {
     super(states);
-  }
-
-  @Override
-  public String getStateValue() {
-    return value.substring(0, value.length()-1);
+    prevStates = new Stack<Integer>();
   }
 
   @Override
@@ -32,20 +30,32 @@ public class GrammarDfa extends Dfa {
   }
 
   @Override
+  protected void adjustState(String input) {
+    prevState = getState();
+    super.adjustState(input);
+  }
+
+  @Override
   protected void adjustValue(String input) {
-    value += input + " ";
   }
 
   @Override
   protected void resetValue() {
-    value = "";
   }
 
-  public void setState(int state) {
-    super.setState(state);
+  public void returnToPushedState() {
+    super.setState(prevStates.pop() + 1);
   }
 
-  public String getType(int state) {
-    return states.get(state).getText();
+  boolean didJumpOccur() {
+    return !(states.get(prevState).getText().equals(getCurrState().getText()));
+  }
+
+  boolean wasMoveBackwards() {
+    return prevState > getState();
+  }
+
+  void pushReturnState() {
+    prevStates.push(prevState);
   }
 }

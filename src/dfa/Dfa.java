@@ -40,7 +40,7 @@ public abstract class Dfa {
     adjustValue(input);
   }
 
-  private void adjustState(String input) {
+  protected void adjustState(String input) {
     currState = getCurrState().getDestination(input);
   }
 
@@ -53,7 +53,7 @@ public abstract class Dfa {
   public int getState() {
     return currState;
   }
-  public abstract String getStateValue();
+
   public abstract boolean isInErrorState();
   protected abstract void resetValue();
 
