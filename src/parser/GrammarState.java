@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GrammarState implements State {
-  private Map<String, Integer> destinations;
-  private String text;
-  private int defaultDestination;
+  private final Map<String, Integer> destinations;
+  private final String text;
+  private final int defaultDestination;
 
   public GrammarState(String text, int defaultDestination) {
     this.text = text;
@@ -21,7 +21,6 @@ public class GrammarState implements State {
     return defaultDestination == -1;
   }
 
-  @Override
   public void addDestination(String tag, int destination) {
     destinations.put(tag, destination);
   }

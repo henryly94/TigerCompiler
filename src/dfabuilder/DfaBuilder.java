@@ -10,7 +10,7 @@ public abstract class DfaBuilder {
   private final SvReader reader;
   private String[] header;
 
-  public DfaBuilder() {
+  protected DfaBuilder() {
     reader = new SvReader(',');
   }
 

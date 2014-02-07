@@ -5,7 +5,7 @@ import scanner.TokenTuple;
 import java.util.List;
 
 public class Parser {
-  private GrammarDfa dfa;
+  private final GrammarDfa dfa;
   private List<TokenTuple> tokens;
   private int tokenIndex;
 
@@ -16,16 +16,19 @@ public class Parser {
   public void parse(List<TokenTuple> tokens) {
     this.tokens = tokens;
     tokenIndex = 0;
-    while (tokenIndex < tokens.size() && !dfa.isInErrorState())
+    while (tokenIndex < tokens.size() && dfa.notInErrorState())
       handleToken();
   }
 
   private void handleToken() {
     dfa.changeState(getType());
+    if (dfa.notInErrorState())
+      handleDfaState();
+  }
+
+  private void handleDfaState() {
     if (dfa.isInReturnState())
       handleReturn();
-    else if (dfa.isInErrorState())
-      ;
     else if (dfa.didJumpOccur() || dfa.wasMoveBackwards())
       handleJump();
     else

@@ -8,7 +8,7 @@ import scanner.TokenTuple;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FrontEnd {
+class FrontEnd {
   private final Scanner scanner;
   private final Parser parser;
   private final FileScraper scraper;

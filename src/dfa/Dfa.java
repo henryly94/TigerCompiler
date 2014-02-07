@@ -6,7 +6,7 @@ public abstract class Dfa {
   protected final List<State> states;
   private int currState;
 
-  public Dfa(List<State> states) {
+  protected Dfa(List<State> states) {
     this.states = states;
     reset();
   }
@@ -50,11 +50,10 @@ public abstract class Dfa {
     return states.get(currState);
   }
 
-  public int getState() {
+  protected int getState() {
     return currState;
   }
 
-  public abstract boolean isInErrorState();
   protected abstract void resetValue();
 
   protected void setState(int state) {

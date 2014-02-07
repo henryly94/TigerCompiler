@@ -1,10 +1,8 @@
-package dfabuilder;
+package scanner;
 
 import dfa.Dfa;
 import dfa.State;
-import scanner.TokenState;
-import scanner.TokenDfa;
-
+import dfabuilder.DfaBuilder;
 import java.util.List;
 
 /**

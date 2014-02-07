@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Stack;
 
 public class GrammarDfa extends Dfa {
-  private Stack<Integer> prevStates;
+  private final Stack<Integer> prevStates;
   private int prevState;
 
   public GrammarDfa(List<State> states) {
@@ -15,9 +15,8 @@ public class GrammarDfa extends Dfa {
     prevStates = new Stack<Integer>();
   }
 
-  @Override
-  public boolean isInErrorState() {
-    return getState() == -2;
+  public boolean notInErrorState() {
+    return getState() != -2;
   }
 
   @Override

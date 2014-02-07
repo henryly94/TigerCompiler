@@ -1,6 +1,6 @@
 package frontend;
 
-import dfabuilder.TokenDfaBuilder;
+import scanner.TokenDfaBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import parser.GrammarDfa;
@@ -17,7 +17,7 @@ public class FrontEndTest {
 
   @Before
   public void setUp() {
-    Scanner scanner = new Scanner((TokenDfa) new TokenDfaBuilder().buildFrom("./src/dfabuilder/TokenDFA.csv"));
+    Scanner scanner = new Scanner((TokenDfa) new TokenDfaBuilder().buildFrom("./src/scanner/TokenDFA.csv"));
     Parser parser = new Parser((GrammarDfa) new GrammarDfaBuilder().buildFrom("./src/parser/GrammarDFA.csv"));
     frontEnd = new FrontEnd(scanner, parser);
   }
