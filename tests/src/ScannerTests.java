@@ -1,8 +1,8 @@
-package scanner;
-
+import junit.framework.Assert;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.Before;
+import scanner.*;
 
 
 import java.io.ByteArrayOutputStream;
@@ -17,7 +17,7 @@ public class ScannerTests {
 
   @Before
   public void setUp() {
-    scanner = new Scanner((TokenDfa) new TokenDfaBuilder().buildFrom("./src/scanner/TokenDFA.csv"));
+    scanner = new Scanner((TokenDfa) new TokenDfaBuilder().buildFrom("./assets/TokenDFA.csv"));
     System.setErr(new PrintStream(errContent));
   }
 
@@ -27,7 +27,7 @@ public class ScannerTests {
   }
 
   private void checkTokens(String tokenType, String token) {
-    assertEquals(new TokenTuple(tokenType, token), scanner.getNextToken());
+    Assert.assertEquals(new TokenTuple(tokenType, token), scanner.getNextToken());
   }
 
   @Test

@@ -1,5 +1,4 @@
-package frontend;
-
+import frontend.FrontEnd;
 import scanner.TokenDfaBuilder;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,18 +16,18 @@ public class FrontEndTest {
 
   @Before
   public void setUp() {
-    Scanner scanner = new Scanner((TokenDfa) new TokenDfaBuilder().buildFrom("./src/scanner/TokenDFA.csv"));
-    Parser parser = new Parser((GrammarDfa) new GrammarDfaBuilder().buildFrom("./src/parser/GrammarDFA.csv"));
+    Scanner scanner = new Scanner((TokenDfa) new TokenDfaBuilder().buildFrom("./assets/TokenDFA.csv"));
+    Parser parser = new Parser((GrammarDfa) new GrammarDfaBuilder().buildFrom("./assets/GrammarDFA.csv"));
     frontEnd = new FrontEnd(scanner, parser);
   }
 
   @Test
   public void simpleFile() {
-    assertTrue(frontEnd.compile("./src/frontend/simplefile"));
+    assertTrue(frontEnd.compile("./assets/simplefile"));
   }
 
   @Test
   public void complexFile() {
-    assertTrue(frontEnd.compile("./src/frontend/complexfile"));
+    assertTrue(frontEnd.compile("./assets/complexfile"));
   }
 }

@@ -1,8 +1,8 @@
-package scanner;
-
 import org.junit.Before;
 import org.junit.After;
 import org.junit.Test;
+import scanner.TokenDfa;
+import scanner.TokenDfaBuilder;
 
 import static junit.framework.Assert.*;
 
@@ -11,7 +11,7 @@ public class TokenDfaTests {
 
   @Before
   public void setUp() {
-    dfa = (TokenDfa) new TokenDfaBuilder().buildFrom("./src/scanner/TokenDFA.csv");
+    dfa = (TokenDfa) new TokenDfaBuilder().buildFrom("./assets/TokenDFA.csv");
   }
 
   @After

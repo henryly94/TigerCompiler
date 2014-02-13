@@ -47,20 +47,19 @@ public class Parser {
 
   private void determineNextToken() {
     if (dfa.isInReturnState())
-      repeatTokenAndLoadState();
+      executeReturn();
     else if (dfa.didJumpOccur())
-      repeatTokenAndSaveState();
+      executeJump();
     else
       moveToNextToken();
   }
 
-  private void repeatTokenAndLoadState() {
+  private void executeReturn() {
     tree.moveUp();
     dfa.returnToPushedState();
   }
 
-  private void repeatTokenAndSaveState() {
-    System.out.println(dfa.getStateName());
+  private void executeJump() {
     tree.addBranch(new TokenTuple(dfa.getStateName(), ""));
     tree.moveDown();
     dfa.pushReturnState();

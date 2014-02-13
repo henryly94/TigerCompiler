@@ -1,6 +1,5 @@
-package grammar;
-
 import dfa.State;
+import grammar.GrammarBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import parser.GrammarState;
@@ -22,7 +21,7 @@ public class GrammarBuilderTests {
 
   @Test
   public void simpleGrammar() {
-    List<State> states = builder.buildFrom("./src/grammar/simplegrammar");
+    List<State> states = builder.buildFrom("./assets/simplegrammar");
     exp = new ArrayList<State>();
     GrammarState state = new GrammarState("<tag>", -2);
     state.addDestination("word1", 1);
@@ -40,7 +39,7 @@ public class GrammarBuilderTests {
 
   @Test
   public void compositeGrammar() {
-    List<State> states = builder.buildFrom("./src/grammar/compositegrammar");
+    List<State> states = builder.buildFrom("./assets/compositegrammar");
     exp = new ArrayList<State>();
     GrammarState state = new GrammarState("<tag1>", -2);
     state.addDestination("word1", 1);

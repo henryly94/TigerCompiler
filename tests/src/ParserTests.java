@@ -1,7 +1,9 @@
-package parser;
-
 import org.junit.Before;
 import org.junit.Test;
+import parser.GrammarDfa;
+import parser.GrammarDfaBuilder;
+import parser.ParseTree;
+import parser.Parser;
 import scanner.TokenTuple;
 
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ public class ParserTests {
 
   @Before
   public void setUp() {
-    p = new Parser((GrammarDfa) new GrammarDfaBuilder().buildFrom("./src/parser/GrammarDFA.csv"));
+    p = new Parser((GrammarDfa) new GrammarDfaBuilder().buildFrom("./assets/GrammarDFA.csv"));
     tokens = new ArrayList<TokenTuple>();
   }
 
