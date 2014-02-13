@@ -36,9 +36,9 @@ public class ParseTree {
   }
 
   private class ParseTreeNode {
-    private TokenTuple token;
-    private ParseTreeNode parent;
-    private List<ParseTreeNode> children;
+    private final TokenTuple token;
+    private final ParseTreeNode parent;
+    private final List<ParseTreeNode> children;
 
     ParseTreeNode(TokenTuple token, ParseTreeNode parent) {
       this.token = token;

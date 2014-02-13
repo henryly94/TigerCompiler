@@ -18,9 +18,9 @@ public class GrammarBuilder {
     GrammarState state;
     String[] tokens;
     int gotoState = 0;
-    for (int line = 0; line < lines.length; line++) {
-      tokens = ss.split(lines[line]);
-      String name = tokens[0].substring(0, tokens[0].length()-1);
+    for (String line : lines) {
+      tokens = ss.split(line);
+      String name = tokens[0].substring(0, tokens[0].length() - 1);
       for (int i = 1; i < tokens.length; i++) {
         state = new GrammarState(name, -2);
         state.addDestination(tokens[i], ++gotoState);
