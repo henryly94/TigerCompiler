@@ -5,10 +5,10 @@ import scanner.TokenTuple;
 import java.util.List;
 
 public class Parser {
+  private ParseTree tree;
   private final GrammarDfa dfa;
   private List<TokenTuple> tokens;
   private int tokenIndex;
-  private ParseTree tree;
 
   public Parser(GrammarDfa dfa) {
     this.dfa = dfa;
@@ -55,13 +55,13 @@ public class Parser {
   }
 
   private void executeReturn() {
-    tree.moveUp();
+    tree.moveToParent();
     dfa.returnToPushedState();
   }
 
   private void executeJump() {
-    tree.addBranch(new TokenTuple(dfa.getStateName(), ""));
-    tree.moveDown();
+    tree.addBranch(dfa.getExpectedToken());
+    tree.moveToLastBranch();
     dfa.pushReturnState();
   }
 

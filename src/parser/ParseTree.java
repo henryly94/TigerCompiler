@@ -27,11 +27,11 @@ public class ParseTree {
     return currentNode.toString();
   }
 
-  public void moveDown() {
+  public void moveToLastBranch() {
     currentNode = currentNode.getLastChild();
   }
 
-  public void moveUp() {
+  public void moveToParent() {
     currentNode = currentNode.getParent();
   }
 

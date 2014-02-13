@@ -47,19 +47,19 @@ public class ParserTests {
     add("LET");
     add("IN");
     add("END");
+
     ParseTree exp = new ParseTree();
     exp.addBranch(new TokenTuple("LET", "let"));
     exp.addBranch(new TokenTuple("<declaration-segment>", ""));
-    exp.moveDown();
+    exp.moveToLastBranch();
     exp.addBranch(new TokenTuple("<type-declaration-list>", ""));
     exp.addBranch(new TokenTuple("<var-declaration-list>", ""));
     exp.addBranch(new TokenTuple("<funct-declaration-list>", ""));
-    exp.moveUp();
+    exp.moveToParent();
     exp.addBranch(new TokenTuple("IN", "in"));
     exp.addBranch(new TokenTuple("<stat-seq>", ""));
     exp.addBranch(new TokenTuple("END", "end"));
+
     assertEquals(exp, p.parse(tokens));
   }
-
-
 }

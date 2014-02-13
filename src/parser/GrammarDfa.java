@@ -2,6 +2,7 @@ package parser;
 
 import dfa.Dfa;
 import dfa.State;
+import scanner.TokenTuple;
 
 import java.util.List;
 import java.util.Stack;
@@ -52,5 +53,9 @@ public class GrammarDfa extends Dfa {
 
   void pushReturnState() {
     prevStates.push(prevState);
+  }
+
+  public TokenTuple getExpectedToken() {
+    return new TokenTuple(getStateName(), "");
   }
 }
