@@ -12,7 +12,7 @@ public abstract class Dfa {
   }
 
   public String getStateName() {
-    return states.get(currState).getText();
+    return states.get(currState).getName();
   }
 
   public void reset() {

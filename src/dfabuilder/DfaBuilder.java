@@ -17,10 +17,19 @@ public abstract class DfaBuilder {
   public Dfa buildFrom(String filename) {
     reader.read(filename);
     header = reader.getHeader();
-    List<State> states = new ArrayList<State>();
-    while (reader.hasLine())
-      states.add(getNextState());
+    List<State> states = getStates();
     return buildDfa(states);
+  }
+
+  private List<State> getStates() {
+    List<State> states = new ArrayList<State>();
+    while (statesRemain())
+      states.add(getNextState());
+    return states;
+  }
+
+  private boolean statesRemain() {
+    return reader.hasLine();
   }
 
   protected abstract State getNextState();

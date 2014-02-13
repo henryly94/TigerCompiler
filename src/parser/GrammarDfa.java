@@ -46,7 +46,7 @@ public class GrammarDfa extends Dfa {
   }
 
   boolean didJumpOccur() {
-    return !(states.get(prevState).getText().equals(getCurrState().getText()))
+    return !(states.get(prevState).getName().equals(getCurrState().getName()))
             || prevState > getState();
   }
 

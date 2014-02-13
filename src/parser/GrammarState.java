@@ -7,11 +7,11 @@ import java.util.Map;
 
 public class GrammarState implements State {
   private final Map<String, Integer> destinations;
-  private final String text;
+  private final String name;
   private final int defaultDestination;
 
   public GrammarState(String text, int defaultDestination) {
-    this.text = text;
+    this.name = text;
     this.defaultDestination = defaultDestination;
     destinations = new HashMap<String, Integer>();
   }
@@ -34,7 +34,24 @@ public class GrammarState implements State {
   }
 
   @Override
-  public String getText() {
-    return text;
+  public String getName() {
+    return name;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof GrammarState))
+      return false;
+    GrammarState s = (GrammarState)o;
+    return destinations.equals(s.destinations) &&
+            name.equals(s.name) &&
+            defaultDestination == s.defaultDestination;
+  }
+
+  @Override
+  public String toString() {
+    return "Name: " + name +
+            ", def dest: " + defaultDestination +
+            ", dests: " + destinations;
   }
 }

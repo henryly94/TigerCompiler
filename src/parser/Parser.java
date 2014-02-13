@@ -8,6 +8,7 @@ public class Parser {
   private final GrammarDfa dfa;
   private List<TokenTuple> tokens;
   private int tokenIndex;
+  private ParseTree tree;
 
   public Parser(GrammarDfa dfa) {
     this.dfa = dfa;
@@ -17,13 +18,15 @@ public class Parser {
     return dfa.isInAcceptState();
   }
 
-  public void parse(List<TokenTuple> tokens) {
+  public ParseTree parse(List<TokenTuple> tokens) {
     prepareToParse(tokens);
     while (tokensRemain() && dfa.notInErrorState())
       processNextToken();
+    return tree;
   }
 
   private void prepareToParse(List<TokenTuple> tokens) {
+    tree = new ParseTree();
     this.tokens = tokens;
     tokenIndex = 0;
   }
@@ -52,14 +55,19 @@ public class Parser {
   }
 
   private void repeatTokenAndLoadState() {
+    tree.moveUp();
     dfa.returnToPushedState();
   }
 
   private void repeatTokenAndSaveState() {
+    System.out.println(dfa.getStateName());
+    tree.addBranch(new TokenTuple(dfa.getStateName(), ""));
+    tree.moveDown();
     dfa.pushReturnState();
   }
 
   private void moveToNextToken() {
+    tree.addBranch(tokens.get(tokenIndex));
     tokenIndex++;
   }
 }

@@ -30,7 +30,7 @@ public class TokenState implements State {
     return isAcceptState;
   }
 
-  public String getText() {
+  public String getName() {
     return text;
   }
 
