@@ -9,5 +9,5 @@ You can view the Tiger grammar DFA [here](https://docs.google.com/spreadsheet/cc
 * ~~Implement Scanner~~  
 * Modify Tiger grammar to support LL(1)  
 * Create LL(1) parser table  
-* Implement Parser  
-* Submit by February 17  
+* ~~Implement Parser~~  
+* Submit by February 19  
